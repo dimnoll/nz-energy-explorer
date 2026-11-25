@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -80,6 +81,30 @@ def _env(name: str) -> str:
     return value
 
 
+def _http_path() -> str:
+    """Accept the SQL connector path, or the browser /sql/warehouses/<id>?o= form."""
+    path = _env("DATABRICKS_HTTP_PATH")
+    if "?" in path:
+        path = path.split("?", 1)[0]
+    browser = re.fullmatch(r"/sql/warehouses/([0-9a-fA-F]+)/?", path)
+    if browser:
+        path = f"/sql/1.0/warehouses/{browser.group(1)}"
+    if not re.fullmatch(r"/sql/1\.0/warehouses/[0-9a-fA-F]+", path):
+        raise SystemExit(
+            "DATABRICKS_HTTP_PATH should be /sql/1.0/warehouses/<id> from the "
+            "warehouse Connection details, not the browser URL."
+        )
+    return path
+
+
+def _hostname() -> str:
+    host = _env("DATABRICKS_HOST")
+    for prefix in ("https://", "http://"):
+        if host.lower().startswith(prefix):
+            host = host[len(prefix) :]
+    return host.split("/")[0]
+
+
 def _cell(value: object) -> object:
     if value is None:
         return None
@@ -92,8 +117,8 @@ def _cell(value: object) -> object:
 
 def fetch_rows(query: str) -> list[dict[str, object]]:
     connection = sql.connect(
-        server_hostname=_env("DATABRICKS_HOST"),
-        http_path=_env("DATABRICKS_HTTP_PATH"),
+        server_hostname=_hostname(),
+        http_path=_http_path(),
         access_token=_env("DATABRICKS_TOKEN"),
     )
     try:
