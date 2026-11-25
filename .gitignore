@@ -1,0 +1,29 @@
+# Local machine overrides (Python path, CLI profile, warehouse HTTP path)
+AGENTS.local.md
+
+# Secrets and Databricks CLI caches
+.env
+.env.*
+!.env.example
+.databricks/
+
+# Editor / agent noise
+.cursor/
+*.log
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Node / Next.js
+node_modules/
+.next/
+out/
+dist/
+*.tsbuildinfo
+
+# Windows
+Thumbs.db
+Desktop.ini
