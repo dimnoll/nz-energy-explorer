@@ -1,0 +1,102 @@
+[
+  {
+    "trading_date": "2026-10-12",
+    "fuel_code": "Hydro",
+    "daytime_kwh": 600,
+    "evening_kwh": 400,
+    "daytime_total_kwh": 1000,
+    "evening_total_kwh": 1000,
+    "daytime_share": 0.6,
+    "evening_share": 0.4
+  },
+  {
+    "trading_date": "2026-10-13",
+    "fuel_code": "Hydro",
+    "daytime_kwh": 580,
+    "evening_kwh": 420,
+    "daytime_total_kwh": 1000,
+    "evening_total_kwh": 1000,
+    "daytime_share": 0.58,
+    "evening_share": 0.42
+  },
+  {
+    "trading_date": "2026-10-14",
+    "fuel_code": "Hydro",
+    "daytime_kwh": 590,
+    "evening_kwh": 410,
+    "daytime_total_kwh": 1000,
+    "evening_total_kwh": 1000,
+    "daytime_share": 0.59,
+    "evening_share": 0.41
+  },
+  {
+    "trading_date": "2026-10-15",
+    "fuel_code": "Hydro",
+    "daytime_kwh": 570,
+    "evening_kwh": 430,
+    "daytime_total_kwh": 1000,
+    "evening_total_kwh": 1000,
+    "daytime_share": 0.57,
+    "evening_share": 0.43
+  },
+  {
+    "trading_date": "2026-10-16",
+    "fuel_code": "Hydro",
+    "daytime_kwh": 450,
+    "evening_kwh": 550,
+    "daytime_total_kwh": 1000,
+    "evening_total_kwh": 1000,
+    "daytime_share": 0.45,
+    "evening_share": 0.55
+  },
+  {
+    "trading_date": "2026-10-12",
+    "fuel_code": "HYD",
+    "daytime_kwh": 100,
+    "evening_kwh": 100,
+    "daytime_total_kwh": 1000,
+    "evening_total_kwh": 1000,
+    "daytime_share": 0.1,
+    "evening_share": 0.1
+  },
+  {
+    "trading_date": "2026-10-13",
+    "fuel_code": "HYD",
+    "daytime_kwh": 90,
+    "evening_kwh": 110,
+    "daytime_total_kwh": 1000,
+    "evening_total_kwh": 1000,
+    "daytime_share": 0.09,
+    "evening_share": 0.11
+  },
+  {
+    "trading_date": "2026-10-14",
+    "fuel_code": "HYD",
+    "daytime_kwh": 110,
+    "evening_kwh": 90,
+    "daytime_total_kwh": 1000,
+    "evening_total_kwh": 1000,
+    "daytime_share": 0.11,
+    "evening_share": 0.09
+  },
+  {
+    "trading_date": "2026-10-15",
+    "fuel_code": "HYD",
+    "daytime_kwh": 100,
+    "evening_kwh": 100,
+    "daytime_total_kwh": 1000,
+    "evening_total_kwh": 1000,
+    "daytime_share": 0.1,
+    "evening_share": 0.1
+  },
+  {
+    "trading_date": "2026-10-16",
+    "fuel_code": "HYD",
+    "daytime_kwh": 100,
+    "evening_kwh": 100,
+    "daytime_total_kwh": 1000,
+    "evening_total_kwh": 1000,
+    "daytime_share": 0.1,
+    "evening_share": 0.1
+  }
+]

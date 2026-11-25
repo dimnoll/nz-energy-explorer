@@ -1,0 +1,167 @@
+[
+  {
+    "trading_date": "2026-10-12",
+    "point_of_connection": "EXT0011",
+    "island": "NI",
+    "network_reporting_region": "Auckland",
+    "daytime_avg_dollars_per_mwh": 100,
+    "evening_avg_dollars_per_mwh": 100,
+    "evening_to_daytime_ratio": 1.0,
+    "daytime_period_count": 20,
+    "evening_period_count": 14
+  },
+  {
+    "trading_date": "2026-10-13",
+    "point_of_connection": "EXT0011",
+    "island": "NI",
+    "network_reporting_region": "Auckland",
+    "daytime_avg_dollars_per_mwh": 100,
+    "evening_avg_dollars_per_mwh": 120,
+    "evening_to_daytime_ratio": 1.2,
+    "daytime_period_count": 20,
+    "evening_period_count": 14
+  },
+  {
+    "trading_date": "2026-10-14",
+    "point_of_connection": "EXT0011",
+    "island": "NI",
+    "network_reporting_region": "Auckland",
+    "daytime_avg_dollars_per_mwh": 100,
+    "evening_avg_dollars_per_mwh": 140,
+    "evening_to_daytime_ratio": 1.4,
+    "daytime_period_count": 20,
+    "evening_period_count": 14
+  },
+  {
+    "trading_date": "2026-10-15",
+    "point_of_connection": "EXT0011",
+    "island": "NI",
+    "network_reporting_region": "Auckland",
+    "daytime_avg_dollars_per_mwh": 100,
+    "evening_avg_dollars_per_mwh": 160,
+    "evening_to_daytime_ratio": 1.6,
+    "daytime_period_count": 20,
+    "evening_period_count": 14
+  },
+  {
+    "trading_date": "2026-10-16",
+    "point_of_connection": "EXT0011",
+    "island": "NI",
+    "network_reporting_region": "Auckland",
+    "daytime_avg_dollars_per_mwh": 100,
+    "evening_avg_dollars_per_mwh": 400,
+    "evening_to_daytime_ratio": 4.0,
+    "daytime_period_count": 20,
+    "evening_period_count": 14
+  },
+  {
+    "trading_date": "2026-10-12",
+    "point_of_connection": "WTK0111",
+    "island": "NI",
+    "network_reporting_region": "Waitaki",
+    "daytime_avg_dollars_per_mwh": 100,
+    "evening_avg_dollars_per_mwh": 150,
+    "evening_to_daytime_ratio": 1.5,
+    "daytime_period_count": 20,
+    "evening_period_count": 14
+  },
+  {
+    "trading_date": "2026-10-13",
+    "point_of_connection": "WTK0111",
+    "island": "NI",
+    "network_reporting_region": "Waitaki",
+    "daytime_avg_dollars_per_mwh": 100,
+    "evening_avg_dollars_per_mwh": 150,
+    "evening_to_daytime_ratio": 1.5,
+    "daytime_period_count": 20,
+    "evening_period_count": 14
+  },
+  {
+    "trading_date": "2026-10-14",
+    "point_of_connection": "WTK0111",
+    "island": "NI",
+    "network_reporting_region": "Waitaki",
+    "daytime_avg_dollars_per_mwh": 100,
+    "evening_avg_dollars_per_mwh": 150,
+    "evening_to_daytime_ratio": 1.5,
+    "daytime_period_count": 20,
+    "evening_period_count": 14
+  },
+  {
+    "trading_date": "2026-10-15",
+    "point_of_connection": "WTK0111",
+    "island": "NI",
+    "network_reporting_region": "Waitaki",
+    "daytime_avg_dollars_per_mwh": 100,
+    "evening_avg_dollars_per_mwh": 150,
+    "evening_to_daytime_ratio": 1.5,
+    "daytime_period_count": 20,
+    "evening_period_count": 14
+  },
+  {
+    "trading_date": "2026-10-16",
+    "point_of_connection": "WTK0111",
+    "island": "NI",
+    "network_reporting_region": "Waitaki",
+    "daytime_avg_dollars_per_mwh": 100,
+    "evening_avg_dollars_per_mwh": 150,
+    "evening_to_daytime_ratio": 1.5,
+    "daytime_period_count": 20,
+    "evening_period_count": 14
+  },
+  {
+    "trading_date": "2026-10-12",
+    "point_of_connection": "LOW0011",
+    "island": "SI",
+    "network_reporting_region": "Southland",
+    "daytime_avg_dollars_per_mwh": 100,
+    "evening_avg_dollars_per_mwh": 80,
+    "evening_to_daytime_ratio": 0.8,
+    "daytime_period_count": 20,
+    "evening_period_count": 14
+  },
+  {
+    "trading_date": "2026-10-13",
+    "point_of_connection": "LOW0011",
+    "island": "SI",
+    "network_reporting_region": "Southland",
+    "daytime_avg_dollars_per_mwh": 100,
+    "evening_avg_dollars_per_mwh": 80,
+    "evening_to_daytime_ratio": 0.8,
+    "daytime_period_count": 20,
+    "evening_period_count": 14
+  },
+  {
+    "trading_date": "2026-10-14",
+    "point_of_connection": "LOW0011",
+    "island": "SI",
+    "network_reporting_region": "Southland",
+    "daytime_avg_dollars_per_mwh": 100,
+    "evening_avg_dollars_per_mwh": 80,
+    "evening_to_daytime_ratio": 0.8,
+    "daytime_period_count": 20,
+    "evening_period_count": 14
+  },
+  {
+    "trading_date": "2026-10-15",
+    "point_of_connection": "LOW0011",
+    "island": "SI",
+    "network_reporting_region": "Southland",
+    "daytime_avg_dollars_per_mwh": 100,
+    "evening_avg_dollars_per_mwh": 80,
+    "evening_to_daytime_ratio": 0.8,
+    "daytime_period_count": 20,
+    "evening_period_count": 14
+  },
+  {
+    "trading_date": "2026-10-16",
+    "point_of_connection": "LOW0011",
+    "island": "SI",
+    "network_reporting_region": "Southland",
+    "daytime_avg_dollars_per_mwh": 100,
+    "evening_avg_dollars_per_mwh": 80,
+    "evening_to_daytime_ratio": 0.8,
+    "daytime_period_count": 20,
+    "evening_period_count": 14
+  }
+]
