@@ -1,13 +1,20 @@
-:root {
-  color-scheme: light dark;
-  font-family: "Segoe UI", system-ui, sans-serif;
-  line-height: 1.5;
+html {
+  background: #f4f1ea;
+  color: #1a1a1a;
 }
 
 body {
   margin: 0 auto;
   max-width: 52rem;
   padding: 1.25rem 1rem 3rem;
+  background: #f4f1ea;
+  color: #1a1a1a;
+  font-family: "Segoe UI", system-ui, sans-serif;
+  line-height: 1.5;
+}
+
+a {
+  color: #0b57d0;
 }
 
 header nav {
@@ -20,11 +27,12 @@ table {
   border-collapse: collapse;
   width: 100%;
   font-variant-numeric: tabular-nums;
+  background: #fff;
 }
 
 th,
 td {
-  border-bottom: 1px solid color-mix(in srgb, currentColor 20%, transparent);
+  border-bottom: 1px solid #d9d3c7;
   padding: 0.35rem 0.5rem;
   text-align: left;
 }
@@ -64,10 +72,10 @@ button.row[aria-pressed="true"] {
 footer {
   margin-top: 2.5rem;
   font-size: 0.85rem;
-  opacity: 0.85;
+  color: #444;
 }
 
 .note {
   font-size: 0.9rem;
-  opacity: 0.85;
+  color: #444;
 }
