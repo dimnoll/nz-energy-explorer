@@ -4,7 +4,7 @@
 
 Read-only Next.js app over Gold tables from [nz-energy-lakehouse](https://github.com/dimnoll/nz-energy-lakehouse): weekday evening price spikes, plus national generation mix. The lakehouse stays sealed; this repo does not run Lakeflow or download EMI.
 
-**Status:** contract only (`AGENTS.md`). No app, no Gold snapshot, no deploy yet.
+**Status:** Next.js App Router skeleton is in `src/app/` (`/`, `/spikes`, `/mix`). Window stats (`mean` / `median`, trim 0/1/3) are pure functions with fixture tests (`pnpm test`). Pages still read a tiny fixture, not a Gold snapshot. No deploy yet.
 
 ---
 
@@ -45,6 +45,16 @@ Export runs on a laptop with a SQL warehouse. The deployed app ships the snapsho
 
 Data licence: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Attribution: *www.emi.ea.govt.nz provided by the Electricity Authority (New Zealand)*.
 
+### Development
+
+```text
+pnpm test
+pnpm typecheck
+pnpm dev
+```
+
+`pnpm test` covers mean/median/trim on the fixture (one extreme day at `EXT0011`; `WTK0111` is the steady node). Do not treat fixture ranks as EMI insights.
+
 ### Licence
 
 - Repository code: [MIT](LICENSE)
@@ -56,7 +66,7 @@ Data licence: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Attribu
 
 只读 Next.js 应用，数据来自 [nz-energy-lakehouse](https://github.com/dimnoll/nz-energy-lakehouse) 的 Gold 日表：工作日晚间电价尖峰，以及全国发电结构。湖仓继续封口；本仓不跑 Lakeflow，不下载 EMI。
 
-**当前状态：** 只有合同（`AGENTS.md`）。应用、Gold 快照、部署都还没有。
+**当前状态：** Next.js App Router 骨架在 `src/app/`（`/`、`/spikes`、`/mix`）。窗口统计（mean / median，trim 0/1/3）是带 fixture 测试的纯函数（`pnpm test`）。页面仍读一小段 fixture，不是 Gold 快照。尚未部署。
 
 ### 问题
 
@@ -87,6 +97,16 @@ v1 不做：上传、登录、地图、SHAP、浏览器直连 Databricks。
 `data/gold/` 快照（尚未导出）来自上面两张 Gold 日表。导出只在本机用 SQL warehouse 跑；线上只带快照。原始 EMI CSV 不在本仓。
 
 数据许可：[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)。署名：*www.emi.ea.govt.nz provided by the Electricity Authority (New Zealand)*。
+
+### 开发
+
+```text
+pnpm test
+pnpm typecheck
+pnpm dev
+```
+
+`pnpm test` 用 fixture 覆盖 mean/median/trim（`EXT0011` 有一天极端值；`WTK0111` 是平稳节点）。不要把 fixture 排名当成 EMI 结论。
 
 ### 许可
 
