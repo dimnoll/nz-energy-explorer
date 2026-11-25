@@ -1,7 +1,7 @@
 """Export Gold daily tables to data/gold/ JSON.
 
 Run on a laptop that can reach a SQL warehouse. Do not import this from Next.js.
-Credentials come from the environment; never commit them.
+Credentials come from `.env` (copy `.env.example`) or the process environment; never commit them.
 
   DATABRICKS_HOST          workspace host, no https://
   DATABRICKS_TOKEN         PAT
@@ -26,6 +26,22 @@ except ImportError:
 
 ROOT = Path(__file__).resolve().parents[2]
 OUT_DIR = ROOT / "data" / "gold"
+ENV_FILE = ROOT / ".env"
+
+
+def _load_dotenv(path: Path) -> None:
+    """Load KEY=VALUE lines into os.environ if the key is not already set."""
+    if not path.is_file():
+        return
+    for raw in path.read_text(encoding="utf-8").splitlines():
+        line = raw.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        key, value = line.split("=", 1)
+        key = key.strip()
+        value = value.strip().strip("'").strip('"')
+        if key and key not in os.environ:
+            os.environ[key] = value
 
 NODE_SQL = """
 SELECT
@@ -93,6 +109,7 @@ def fetch_rows(query: str) -> list[dict[str, object]]:
 
 
 def main() -> None:
+    _load_dotenv(ENV_FILE)
     node_rows = fetch_rows(NODE_SQL)
     fuel_rows = fetch_rows(FUEL_SQL)
     OUT_DIR.mkdir(parents=True, exist_ok=True)

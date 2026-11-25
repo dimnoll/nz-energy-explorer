@@ -11,11 +11,12 @@
 Export (laptop only, never from the Next.js app):
 
 ```text
+copy .env.example .env
 python -m pip install -r requirements-export.txt
 python src/export/export_gold.py
 ```
 
-Needs `DATABRICKS_HOST`, `DATABRICKS_TOKEN`, and `DATABRICKS_HTTP_PATH`. Do not put those in git.
+Fill `DATABRICKS_HOST`, `DATABRICKS_TOKEN`, and `DATABRICKS_HTTP_PATH` in `.env`. Do not put `.env` in git. The script loads that file; it does not read `AGENTS.local.md`.
 
 The app ranks nodes from the daily price table (mean or median of `evening_to_daytime_ratio`, optional trim). Do not treat `evening_spike_ranked` as the filter source.
 
