@@ -1,0 +1,15 @@
+{
+  "exported_at_utc": "2026-11-25T20:54:56Z",
+  "catalog_schema": "nz_energy.gold",
+  "tables": {
+    "weekday_evening_node_prices": {
+      "rows": 15498,
+      "file": "weekday_evening_node_prices.json.gz"
+    },
+    "weekday_evening_fuel_mix": {
+      "rows": 826,
+      "file": "weekday_evening_fuel_mix.json.gz"
+    }
+  },
+  "note": "Daily Gold only. Rank is recomputed in the app; evening_spike_ranked is not exported."
+}
