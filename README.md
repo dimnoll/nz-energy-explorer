@@ -29,7 +29,7 @@ Generation mix is not joined onto node ranks. `Hydro` and `HYD` stay separate EM
 | Route | What it is |
 | --- | --- |
 | `/` | Question, metric definitions, snapshot window, licence, limits |
-| `/spikes` | Node rank + daily series (table and chart). Island/region, mean\|median, trim 0\|1\|3. Default series: `WTK0111` if present |
+| `/spikes` | Node rank + daily series (table and chart). Island/region (`unlabelled` = no EMI region), mean\|median, trim 0\|1\|3. Default series: `WTK0111` if present |
 | `/mix` | Evening fuel share by `Fuel_Code`, plus selected-fuel daily series. Mean\|median only |
 
 Not in v1: upload, auth, maps, SHAP, live Databricks from the browser.
@@ -92,7 +92,7 @@ pnpm dev
 | 路由 | 作用 |
 | --- | --- |
 | `/` | 问题、指标、快照窗口、许可、限制 |
-| `/spikes` | 节点排名 + 日序列（表和图）。岛/区域、mean\|median、trim 0\|1\|3。默认序列 `WTK0111`（若有） |
+| `/spikes` | 节点排名 + 日序列（表和图）。岛/区域（`unlabelled` = 无 EMI 区域）、mean\|median、trim 0\|1\|3。默认序列 `WTK0111`（若有） |
 | `/mix` | 分燃料晚间份额 + 选中燃料的日序列。只有 mean\|median |
 
 v1 不做：上传、登录、地图、SHAP、浏览器直连 Databricks。
