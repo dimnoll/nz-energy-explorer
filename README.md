@@ -46,7 +46,7 @@ This snapshot (exported 2026-11-25T20:54:56Z):
 - Prices: 2026-08-18 to 2026-11-12 (63 weekdays)
 - Generation mix: 2026-08-03 to 2026-10-30 (65 weekdays)
 
-The two windows are not joined on date. Export runs on a laptop with a SQL warehouse. The deployed app ships the snapshot only. Raw EMI CSVs are not in this repo.
+The two windows are not joined on date. Default `mean` + trim 0 is checked against `evening_spike_ranked` on this snapshot (same nodes; daily-mean ratios within 1e-12). That ranked table is not the filter source. Export runs on a laptop with a SQL warehouse. The deployed app ships the snapshot only. Raw EMI CSVs are not in this repo.
 
 Data licence: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Attribution: *www.emi.ea.govt.nz provided by the Electricity Authority (New Zealand)*.
 
@@ -58,7 +58,7 @@ pnpm typecheck
 pnpm dev
 ```
 
-`pnpm test` covers mean/median/trim on the fixture (one extreme day at `EXT0011`; `WTK0111` is the steady node). Do not treat fixture ranks as EMI insights.
+`pnpm test` covers mean/median/trim on the fixture (one extreme day at `EXT0011`; `WTK0111` is the steady node) and, when the Gold snapshot is present, mean + trim 0 against `evening_spike_ranked`. Do not treat fixture ranks as EMI insights.
 
 ### Licence
 
@@ -99,7 +99,7 @@ v1 不做：上传、登录、地图、SHAP、浏览器直连 Databricks。
 
 ### 数据
 
-`data/gold/` 快照（紧凑 `.json.gz` 加 `manifest.json`）来自上面两张 Gold 日表。本份导出时间 2026-11-25T20:54:56Z。价格窗口 2026-08-18 至 2026-11-12（63 个工作日）；发电窗口 2026-08-03 至 2026-10-30（65 个工作日）。两窗口不按日期 join。导出只在本机用 SQL warehouse 跑；线上只带快照。原始 EMI CSV 不在本仓。
+`data/gold/` 快照（紧凑 `.json.gz` 加 `manifest.json`）来自上面两张 Gold 日表。本份导出时间 2026-11-25T20:54:56Z。价格窗口 2026-08-18 至 2026-11-12（63 个工作日）；发电窗口 2026-08-03 至 2026-10-30（65 个工作日）。两窗口不按日期 join。默认 mean + trim 0 已在本快照上对过 `evening_spike_ranked`（同一批节点；日均 ratio 差在 1e-12 内）。排名表不是筛选源。导出只在本机用 SQL warehouse 跑；线上只带快照。原始 EMI CSV 不在本仓。
 
 数据许可：[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)。署名：*www.emi.ea.govt.nz provided by the Electricity Authority (New Zealand)*。
 
@@ -111,7 +111,7 @@ pnpm typecheck
 pnpm dev
 ```
 
-`pnpm test` 用 fixture 覆盖 mean/median/trim（`EXT0011` 有一天极端值；`WTK0111` 是平稳节点）。不要把 fixture 排名当成 EMI 结论。
+`pnpm test` 用 fixture 覆盖 mean/median/trim（`EXT0011` 有一天极端值；`WTK0111` 是平稳节点）；有 Gold 快照时还会对 mean + trim 0 与 `evening_spike_ranked`。不要把 fixture 排名当成 EMI 结论。
 
 ### 许可
 

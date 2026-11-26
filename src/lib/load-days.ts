@@ -19,6 +19,14 @@ export type GoldManifest = {
     weekday_evening_node_prices: { rows: number; file: string };
     weekday_evening_fuel_mix: { rows: number; file: string };
   };
+  checks?: {
+    evening_spike_ranked: {
+      rows: number;
+      file: string;
+      role: string;
+      exported_at_utc?: string;
+    };
+  };
   note: string;
 };
 

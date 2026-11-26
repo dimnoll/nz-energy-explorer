@@ -3,6 +3,11 @@ import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { rankNodes } from "./aggregate";
 import {
+  hasRankedCheck,
+  loadRankedCheck,
+  meanTrim0MatchesRanked,
+} from "./check-ranked";
+import {
   DATA_SOURCE,
   loadFuelDays,
   loadGoldManifest,
@@ -54,4 +59,18 @@ describe("gold snapshot grain", () => {
     );
     expect(ranked.length).toBeGreaterThan(200);
   });
+});
+
+describe("evening_spike_ranked check", () => {
+  it.skipIf(!hasSnapshot || !hasRankedCheck())(
+    "mean + trim 0 matches the lakehouse rank on this snapshot",
+    () => {
+      const expected = loadRankedCheck();
+      const manifest = loadGoldManifest();
+      expect(expected).toHaveLength(
+        manifest?.checks?.evening_spike_ranked.rows ?? expected.length,
+      );
+      meanTrim0MatchesRanked(loadNodeDays(), expected);
+    },
+  );
 });

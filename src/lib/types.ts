@@ -47,3 +47,15 @@ export type FuelWindowRow = {
   weekday_days: number;
   evening_share: number;
 };
+
+/** One row of `nz_energy.gold.evening_spike_ranked` (check file only). */
+export type RankedCheckRow = {
+  spike_rank: number;
+  point_of_connection: string;
+  island: string | null;
+  network_reporting_region: string | null;
+  mean_daytime_dollars_per_mwh: number;
+  mean_evening_dollars_per_mwh: number;
+  mean_evening_to_daytime_ratio: number;
+  weekday_days: number;
+};
