@@ -6,7 +6,10 @@
 | --- | --- | --- |
 | `weekday_evening_node_prices.json.gz` | `nz_energy.gold.weekday_evening_node_prices` | weekday date × node |
 | `weekday_evening_fuel_mix.json.gz` | `nz_energy.gold.weekday_evening_fuel_mix` | weekday date × EMI `Fuel_Code` |
+| `checks/evening_spike_ranked.json.gz` | `nz_energy.gold.evening_spike_ranked` | node (mean, no trim). Check only |
 | `manifest.json` | export metadata | window, row counts, export time |
+
+`evening_spike_ranked` is exported in the same warehouse session so `mean` + trim 0 can be compared. The app still ranks from the daily price table.
 
 Snapshots are compact gzip JSON (no pretty-print). Do not commit uncompressed `.json` for these tables.
 

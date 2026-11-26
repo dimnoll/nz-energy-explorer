@@ -11,7 +11,7 @@
 | 门面 | `README.md` | 中英双语：问题、快照来源、许可、页面、限制 | 尚未用快照算出来的「业务洞察」；把本仓写成湖仓 ETL |
 | 合同 | `AGENTS.md` | 目录、硬约束、commit 规则 | 本机 Python 路径、workspace URL、warehouse HTTP path、个人 catalog |
 | 本机覆盖 | `AGENTS.local.md` | 导出脚本用的 CLI profile / warehouse（gitignore） | 提交进 git |
-| 快照 | `data/gold/` | `weekday_evening_node_prices` 与 `weekday_evening_fuel_mix` 的导出 + `manifest.json` | 半小时 Silver、原始 EMI CSV、`evening_spike_ranked` 当源表 |
+| 快照 | `data/gold/` | `weekday_evening_node_prices` 与 `weekday_evening_fuel_mix` 的导出 + `manifest.json`；`checks/evening_spike_ranked` 只作 mean+trim0 对账 | 半小时 Silver、原始 EMI CSV、把 `evening_spike_ranked` 当筛选源 |
 | 导出 | `src/export/` | 本机用 SQL warehouse 拉 Gold、写成快照 | 从浏览器或 Vercel 打 Databricks；在 Databricks 计算里拉 EMI |
 | 应用 | `src/app/`、`src/lib/` | App Router 页面；均值/中位数/trim 的纯函数 | 登录、上传 CSV、SHAP、FastAPI、地图、把 Fuel_Code 并进节点排名 |
 | 说明图 | `docs/` | 以后的页面截图 | 第三方课程截图；把湖仓 DAG 冒充本仓流水线 |
