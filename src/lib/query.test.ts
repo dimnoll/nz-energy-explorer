@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  mixHref,
   parseOptionalFilter,
   parseTrimHighestDays,
   parseWindowStat,
@@ -31,5 +32,12 @@ describe("filter hrefs", () => {
     expect(
       spikesHref({ stat: "median", trim: 3, island: "NI", node: "WAI0331" }),
     ).toBe("/spikes?stat=median&trim=3&island=NI&node=WAI0331");
+  });
+
+  it("omits default mean from the mix URL", () => {
+    expect(mixHref({ stat: "mean", fuel: "HYD" })).toBe("/mix?fuel=HYD");
+    expect(mixHref({ stat: "median", fuel: "Hydro" })).toBe(
+      "/mix?stat=median&fuel=Hydro",
+    );
   });
 });

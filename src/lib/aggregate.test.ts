@@ -1,6 +1,8 @@
 import { describe, expect, it } from "vitest";
 import {
   dropHighest,
+  fuelDailySeries,
+  highestRatioDates,
   mean,
   median,
   nodeDailySeries,
@@ -86,6 +88,36 @@ describe("nodeDailySeries", () => {
       "2026-10-15",
       "2026-10-16",
     ]);
+  });
+});
+
+describe("highestRatioDates", () => {
+  it("marks EXT0011's 4.0 day when trim is 1, and none when trim is 0", () => {
+    const series = nodeDailySeries(nodes, "EXT0011");
+    expect(highestRatioDates(series, 0)).toEqual([]);
+    expect(highestRatioDates(series, 1)).toEqual(["2026-10-16"]);
+    expect(highestRatioDates(series, 3)).toEqual([
+      "2026-10-16",
+      "2026-10-15",
+      "2026-10-14",
+    ]);
+  });
+});
+
+describe("fuelDailySeries", () => {
+  it("keeps Hydro separate from HYD and orders Hydro weekdays", () => {
+    const hydro = fuelDailySeries(fuels, "Hydro");
+    const hyd = fuelDailySeries(fuels, "HYD");
+    expect(hydro.map((row) => row.trading_date)).toEqual([
+      "2026-10-12",
+      "2026-10-13",
+      "2026-10-14",
+      "2026-10-15",
+      "2026-10-16",
+    ]);
+    expect(hyd).toHaveLength(5);
+    expect(hydro.every((row) => row.fuel_code === "Hydro")).toBe(true);
+    expect(hyd.every((row) => row.fuel_code === "HYD")).toBe(true);
   });
 });
 

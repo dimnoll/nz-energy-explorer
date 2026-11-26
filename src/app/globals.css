@@ -80,3 +80,11 @@ footer {
   font-size: 0.9rem;
   color: #444;
 }
+
+.chart {
+  width: 100%;
+  height: 16rem;
+  margin: 0.5rem 0 1.25rem;
+  background: #fff;
+  border: 1px solid #d9d3c7;
+}

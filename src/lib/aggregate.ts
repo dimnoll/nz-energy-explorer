@@ -140,6 +140,35 @@ export function nodeDailySeries(
     .sort((a, b) => a.trading_date.localeCompare(b.trading_date));
 }
 
+/** Dates whose ratio would be dropped by trim (highest n days). Chart still plots them. */
+export function highestRatioDates(
+  days: readonly Pick<NodeDayRow, "trading_date" | "evening_to_daytime_ratio">[],
+  n: number,
+): string[] {
+  if (n <= 0) {
+    return [];
+  }
+  return [...days]
+    .sort((a, b) => {
+      if (b.evening_to_daytime_ratio !== a.evening_to_daytime_ratio) {
+        return b.evening_to_daytime_ratio - a.evening_to_daytime_ratio;
+      }
+      return b.trading_date.localeCompare(a.trading_date);
+    })
+    .slice(0, n)
+    .map((row) => row.trading_date);
+}
+
+export function fuelDailySeries(
+  days: readonly FuelDayRow[],
+  fuelCode: string,
+): FuelDayRow[] {
+  return days
+    .filter((row) => row.fuel_code === fuelCode)
+    .slice()
+    .sort((a, b) => a.trading_date.localeCompare(b.trading_date));
+}
+
 export function rankFuels(
   days: readonly FuelDayRow[],
   stat: WindowStat,

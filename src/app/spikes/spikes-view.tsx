@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { FilterForm } from "@/app/filter-form";
+import { WeekdaySeriesChart } from "@/app/weekday-series-chart";
+import { highestRatioDates } from "@/lib/aggregate";
 import { spikesHref } from "@/lib/query";
 import type { NodeDayRow, NodeWindowRow, TrimHighestDays, WindowStat } from "@/lib/types";
 import { TRIM_OPTIONS } from "@/lib/types";
@@ -21,6 +23,15 @@ export function SpikesView({
   island: string;
   islands: string[];
 }) {
+  const trimmedDates = new Set(highestRatioDates(series, trim));
+  const chartPoints = series.map((row) => ({
+    trading_date: row.trading_date,
+    ratio: row.evening_to_daytime_ratio,
+    trimmedRatio: trimmedDates.has(row.trading_date)
+      ? row.evening_to_daytime_ratio
+      : null,
+  }));
+
   return (
     <>
       <FilterForm action="/spikes">
@@ -94,6 +105,35 @@ export function SpikesView({
         </tbody>
       </table>
       <h2>Daily series: {seriesNode}</h2>
+      <p className="note">
+        Each point is a weekday in the snapshot. Weekends are not plotted, so
+        Friday sits next to Monday. Trim changes the window rank above; every
+        day stays on this chart{trim > 0
+          ? `, with the highest ${trim} ratio day(s) marked.`
+          : "."}
+      </p>
+      <WeekdaySeriesChart
+        points={chartPoints}
+        lines={[
+          {
+            dataKey: "ratio",
+            name: "Evening / daytime",
+            color: "#0b57d0",
+            dots: false,
+          },
+          ...(trim > 0
+            ? [
+                {
+                  dataKey: "trimmedRatio",
+                  name: "Dropped by trim",
+                  color: "#a32d2d",
+                  stroke: "none",
+                },
+              ]
+            : []),
+        ]}
+        yFormat="ratio"
+      />
       <table>
         <thead>
           <tr>

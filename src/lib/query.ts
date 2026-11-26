@@ -47,3 +47,15 @@ export function spikesHref(options: {
   const query = params.toString();
   return query ? `/spikes?${query}` : "/spikes";
 }
+
+export function mixHref(options: { stat?: string; fuel?: string }): string {
+  const params = new URLSearchParams();
+  if (options.stat && options.stat !== "mean") {
+    params.set("stat", options.stat);
+  }
+  if (options.fuel) {
+    params.set("fuel", options.fuel);
+  }
+  const query = params.toString();
+  return query ? `/mix?${query}` : "/mix";
+}
