@@ -8,7 +8,10 @@ import {
   nodeDailySeries,
   rankFuels,
   rankNodes,
+  regionFilterApplies,
+  spikeRegionOptions,
 } from "./aggregate";
+import { UNLABELLED_REGION } from "./types";
 import fuelDays from "./fixtures/fuel_days.json";
 import nodeDays from "./fixtures/node_days.json";
 import type { FuelDayRow, NodeDayRow } from "./types";
@@ -74,6 +77,52 @@ describe("rankNodes", () => {
       "EXT0011",
       "WTK0111",
     ]);
+  });
+
+  it("filters by EMI region without merging the remaining nodes", () => {
+    const ranked = rankNodes(nodes, {
+      stat: "mean",
+      trimHighestDays: 0,
+      networkReportingRegion: "Waitaki",
+    });
+    expect(ranked.map((row) => row.point_of_connection)).toEqual(["WTK0111"]);
+  });
+
+  it("unlabelled keeps only nodes with a missing Gold region", () => {
+    const extra: NodeDayRow = {
+      trading_date: "2026-10-12",
+      point_of_connection: "UNL0011",
+      island: null,
+      network_reporting_region: null,
+      daytime_avg_dollars_per_mwh: 100,
+      evening_avg_dollars_per_mwh: 110,
+      evening_to_daytime_ratio: 1.1,
+      daytime_period_count: 20,
+      evening_period_count: 14,
+    };
+    const ranked = rankNodes([...nodes, extra], {
+      stat: "mean",
+      trimHighestDays: 0,
+      networkReportingRegion: UNLABELLED_REGION,
+    });
+    expect(ranked.map((row) => row.point_of_connection)).toEqual(["UNL0011"]);
+  });
+});
+
+describe("regionFilterApplies", () => {
+  it("ignores a region that does not occur on the selected island", () => {
+    expect(regionFilterApplies(nodes, "SI", "Waitaki")).toBe(false);
+    expect(regionFilterApplies(nodes, "NI", "Waitaki")).toBe(true);
+    expect(regionFilterApplies(nodes, null, UNLABELLED_REGION)).toBe(false);
+  });
+});
+
+describe("spikeRegionOptions", () => {
+  it("groups fixture regions by island and has no unlabelled option", () => {
+    const options = spikeRegionOptions(nodes, null);
+    expect(options.hasUnlabelled).toBe(false);
+    expect(options.groups.map((group) => group.island)).toEqual(["NI", "SI"]);
+    expect(options.groups[0]!.regions).toEqual(["Auckland", "Waitaki"]);
   });
 });
 

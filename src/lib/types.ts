@@ -4,6 +4,9 @@ export type TrimHighestDays = (typeof TRIM_OPTIONS)[number];
 export const WINDOW_STATS = ["mean", "median"] as const;
 export type WindowStat = (typeof WINDOW_STATS)[number];
 
+/** URL/UI sentinel for nodes whose Gold region is null. Not an EMI label. */
+export const UNLABELLED_REGION = "unlabelled";
+
 /** One row of `nz_energy.gold.weekday_evening_node_prices`. */
 export type NodeDayRow = {
   trading_date: string;

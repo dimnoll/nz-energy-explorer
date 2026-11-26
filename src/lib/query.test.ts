@@ -32,6 +32,18 @@ describe("filter hrefs", () => {
     expect(
       spikesHref({ stat: "median", trim: 3, island: "NI", node: "WAI0331" }),
     ).toBe("/spikes?stat=median&trim=3&island=NI&node=WAI0331");
+    expect(
+      spikesHref({
+        island: "SI",
+        region: "Waitaki (Network Waitaki)",
+        node: "WTK0111",
+      }),
+    ).toBe(
+      "/spikes?island=SI&region=Waitaki+%28Network+Waitaki%29&node=WTK0111",
+    );
+    expect(spikesHref({ region: "unlabelled", node: "BEN2201" })).toBe(
+      "/spikes?region=unlabelled&node=BEN2201",
+    );
   });
 
   it("omits default mean from the mix URL", () => {

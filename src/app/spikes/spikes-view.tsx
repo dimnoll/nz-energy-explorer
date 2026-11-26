@@ -2,9 +2,10 @@ import Link from "next/link";
 import { FilterForm } from "@/app/filter-form";
 import { WeekdaySeriesChart } from "@/app/weekday-series-chart";
 import { highestRatioDates } from "@/lib/aggregate";
+import type { RegionOptionGroup } from "@/lib/aggregate";
 import { spikesHref } from "@/lib/query";
 import type { NodeDayRow, NodeWindowRow, TrimHighestDays, WindowStat } from "@/lib/types";
-import { TRIM_OPTIONS } from "@/lib/types";
+import { TRIM_OPTIONS, UNLABELLED_REGION } from "@/lib/types";
 
 export function SpikesView({
   ranked,
@@ -14,6 +15,8 @@ export function SpikesView({
   trim,
   island,
   islands,
+  region,
+  regionOptions,
 }: {
   ranked: NodeWindowRow[];
   series: NodeDayRow[];
@@ -22,6 +25,8 @@ export function SpikesView({
   trim: TrimHighestDays;
   island: string;
   islands: string[];
+  region: string;
+  regionOptions: { hasUnlabelled: boolean; groups: RegionOptionGroup[] };
 }) {
   const trimmedDates = new Set(highestRatioDates(series, trim));
   const chartPoints = series.map((row) => ({
@@ -31,6 +36,13 @@ export function SpikesView({
       ? row.evening_to_daytime_ratio
       : null,
   }));
+
+  const regionSelect = (group: RegionOptionGroup) =>
+    group.regions.map((value) => (
+      <option key={value} value={value}>
+        {value}
+      </option>
+    ));
 
   return (
     <>
@@ -64,6 +76,22 @@ export function SpikesView({
             ))}
           </select>
         </label>
+        <label>
+          Region
+          <select name="region" defaultValue={region}>
+            <option value="">all</option>
+            {regionOptions.hasUnlabelled ? (
+              <option value={UNLABELLED_REGION}>unlabelled</option>
+            ) : null}
+            {regionOptions.groups.length === 1
+              ? regionSelect(regionOptions.groups[0]!)
+              : regionOptions.groups.map((group) => (
+                  <optgroup key={group.island} label={group.island}>
+                    {regionSelect(group)}
+                  </optgroup>
+                ))}
+          </select>
+        </label>
       </FilterForm>
       <table>
         <thead>
@@ -87,6 +115,7 @@ export function SpikesView({
                     stat,
                     trim,
                     island,
+                    region,
                     node: row.point_of_connection,
                   })}
                   aria-current={
@@ -104,7 +133,7 @@ export function SpikesView({
           ))}
         </tbody>
       </table>
-      <h2>Daily series: {seriesNode}</h2>
+      <h2>Daily series: {seriesNode || "none"}</h2>
       <p className="note">
         Each point is a weekday in the snapshot. Weekends are not plotted, so
         Friday sits next to Monday. Trim changes the window rank above; every

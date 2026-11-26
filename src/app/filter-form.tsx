@@ -16,9 +16,17 @@ export function FilterForm({
       action={action}
       method="get"
       onChange={(event: FormEvent<HTMLFormElement>) => {
-        if (event.target instanceof HTMLSelectElement) {
-          event.currentTarget.requestSubmit();
+        if (!(event.target instanceof HTMLSelectElement)) {
+          return;
         }
+        const form = event.currentTarget;
+        if (event.target.name === "island") {
+          const region = form.elements.namedItem("region");
+          if (region instanceof HTMLSelectElement) {
+            region.value = "";
+          }
+        }
+        form.requestSubmit();
       }}
     >
       {children}

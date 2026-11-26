@@ -29,6 +29,7 @@ export function spikesHref(options: {
   stat?: string;
   trim?: string | number;
   island?: string | null;
+  region?: string | null;
   node?: string;
 }): string {
   const params = new URLSearchParams();
@@ -40,6 +41,9 @@ export function spikesHref(options: {
   }
   if (options.island) {
     params.set("island", options.island);
+  }
+  if (options.region) {
+    params.set("region", options.region);
   }
   if (options.node) {
     params.set("node", options.node);

@@ -6,6 +6,7 @@ import type {
   TrimHighestDays,
   WindowStat,
 } from "./types";
+import { UNLABELLED_REGION } from "./types";
 
 export function mean(values: readonly number[]): number {
   if (values.length === 0) {
@@ -55,6 +56,80 @@ function maxLabel(values: readonly (string | null)[]): string | null {
   return present.reduce((best, value) => (value > best ? value : best));
 }
 
+export function isMissingLabel(value: string | null | undefined): boolean {
+  return value == null || value === "";
+}
+
+export function regionMatches(
+  rowRegion: string | null,
+  filter: string | null | undefined,
+): boolean {
+  if (!filter) {
+    return true;
+  }
+  if (filter === UNLABELLED_REGION) {
+    return isMissingLabel(rowRegion);
+  }
+  return rowRegion === filter;
+}
+
+/** False when the URL region does not occur under the current island filter. */
+export function regionFilterApplies(
+  days: readonly NodeDayRow[],
+  island: string | null,
+  region: string | null,
+): boolean {
+  if (!region) {
+    return false;
+  }
+  return days.some((row) => {
+    if (island && row.island !== island) {
+      return false;
+    }
+    return regionMatches(row.network_reporting_region, region);
+  });
+}
+
+export type RegionOptionGroup = {
+  island: string;
+  regions: string[];
+};
+
+export function spikeRegionOptions(
+  days: readonly NodeDayRow[],
+  island?: string | null,
+): { hasUnlabelled: boolean; groups: RegionOptionGroup[] } {
+  const scoped = island
+    ? days.filter((row) => row.island === island)
+    : days;
+  let hasUnlabelled = false;
+  const byIsland = new Map<string, Set<string>>();
+  for (const row of scoped) {
+    const region = row.network_reporting_region;
+    if (region == null || region === "") {
+      hasUnlabelled = true;
+      continue;
+    }
+    const rowIsland = row.island;
+    if (rowIsland == null || rowIsland === "") {
+      continue;
+    }
+    const set = byIsland.get(rowIsland);
+    if (set) {
+      set.add(region);
+    } else {
+      byIsland.set(rowIsland, new Set([region]));
+    }
+  }
+  const groups = [...byIsland.entries()]
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([groupIsland, regions]) => ({
+      island: groupIsland,
+      regions: [...regions].sort((a, b) => a.localeCompare(b)),
+    }));
+  return { hasUnlabelled, groups };
+}
+
 function denseRankByRatio(rows: NodeWindowRow[]): NodeWindowRow[] {
   const sorted = [...rows].sort((a, b) => {
     if (b.ratio !== a.ratio) {
@@ -88,7 +163,7 @@ export function rankNodes(
     }
     if (
       options.networkReportingRegion &&
-      row.network_reporting_region !== options.networkReportingRegion
+      !regionMatches(row.network_reporting_region, options.networkReportingRegion)
     ) {
       return false;
     }
