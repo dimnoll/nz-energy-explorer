@@ -11,5 +11,13 @@
       "file": "weekday_evening_fuel_mix.json.gz"
     }
   },
-  "note": "Daily Gold only. Rank is recomputed in the app; evening_spike_ranked is not exported."
+  "checks": {
+    "evening_spike_ranked": {
+      "rows": 246,
+      "file": "checks/evening_spike_ranked.json.gz",
+      "role": "mean+trim 0 expected output; not a filter source",
+      "exported_at_utc": "2026-11-26T19:50:32Z"
+    }
+  },
+  "note": "Daily Gold is the app source. evening_spike_ranked is a check file only; the explorer recomputes rank from the daily price table."
 }
