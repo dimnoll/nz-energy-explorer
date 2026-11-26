@@ -43,12 +43,13 @@ export default function HomePage() {
         </li>
         <li>
           Mix page: mean or median of daily evening kWh share by EMI{" "}
-          <code>Fuel_Code</code>. Hydro and HYD stay separate. No trim in v1.
+          <code>Fuel_Code</code>. Hydro and HYD stay separate EMI labels. Trim
+          stays on the spikes page.
         </li>
       </ul>
       <h2>Snapshot windows</h2>
       <p>
-        Price and generation tables are not joined on date. The generation Gold
+        Price and generation windows are listed separately. The generation Gold
         table can start earlier because it comes from monthly files.
       </p>
       <ul>
@@ -57,9 +58,8 @@ export default function HomePage() {
       </ul>
       <p className="note">
         Data source on these pages: <strong>{DATA_SOURCE}</strong>
-        {manifest ? ` (exported ${manifest.exported_at_utc})` : ""}. The sibling
-        lakehouse stays sealed; this app does not download EMI or query
-        Databricks from the browser.
+        {manifest ? ` (exported ${manifest.exported_at_utc})` : ""}. Pages ship
+        the snapshot in this repo. The sibling lakehouse stays sealed.
       </p>
     </main>
   );
