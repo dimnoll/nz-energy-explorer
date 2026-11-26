@@ -57,8 +57,8 @@ LICENSE            # 代码 MIT
 | 路由 | 作用 |
 |------|------|
 | `/` | 问题、指标定义、快照窗口、许可、限制。不是营销首页 |
-| `/spikes` | 节点表 + 选中节点的日序列。控件：island / region、mean\|median、trim 0\|1\|3。默认序列节点 `WTK0111`（若快照里有） |
-| `/mix` | 分燃料晚间份额。控件：mean\|median。不是电价图 |
+| `/spikes` | 节点表 + 选中节点的日序列（表 + 图）。控件：island / region、mean\|median、trim 0\|1\|3。默认序列节点 `WTK0111`（若快照里有） |
+| `/mix` | 分燃料晚间份额 + 选中燃料的日序列（表 + 图）。控件：mean\|median。不是电价图 |
 
 v1 不做：用户上传、登录、What-If、SHAP、地图、Databricks Apps、Celery、第二套商业域。
 
