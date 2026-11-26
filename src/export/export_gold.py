@@ -1,4 +1,4 @@
-"""Export Gold daily tables to data/gold/ JSON.
+"""Export Gold daily tables to data/gold/ as compact gzip JSON.
 
 Run on a laptop that can reach a SQL warehouse. Do not import this from Next.js.
 Credentials come from `.env` (copy `.env.example`) or the process environment; never commit them.
@@ -10,6 +10,7 @@ Credentials come from `.env` (copy `.env.example`) or the process environment; n
 
 from __future__ import annotations
 
+import gzip
 import json
 import os
 import re
@@ -28,6 +29,12 @@ except ImportError:
 ROOT = Path(__file__).resolve().parents[2]
 OUT_DIR = ROOT / "data" / "gold"
 ENV_FILE = ROOT / ".env"
+NODE_FILE = "weekday_evening_node_prices.json.gz"
+FUEL_FILE = "weekday_evening_fuel_mix.json.gz"
+LEGACY_JSON = (
+    "weekday_evening_node_prices.json",
+    "weekday_evening_fuel_mix.json",
+)
 
 
 def _load_dotenv(path: Path) -> None:
@@ -115,6 +122,21 @@ def _cell(value: object) -> object:
     return value
 
 
+def write_gzip_json(path: Path, payload: object) -> None:
+    body = json.dumps(
+        payload, ensure_ascii=False, separators=(",", ":"), allow_nan=False
+    ).encode("utf-8")
+    with gzip.open(path, "wb", compresslevel=9) as handle:
+        handle.write(body)
+
+
+def _remove_legacy_pretty_json() -> None:
+    for name in LEGACY_JSON:
+        leftover = OUT_DIR / name
+        if leftover.is_file():
+            leftover.unlink()
+
+
 def fetch_rows(query: str) -> list[dict[str, object]]:
     connection = sql.connect(
         server_hostname=_hostname(),
@@ -138,25 +160,20 @@ def main() -> None:
     node_rows = fetch_rows(NODE_SQL)
     fuel_rows = fetch_rows(FUEL_SQL)
     OUT_DIR.mkdir(parents=True, exist_ok=True)
-    (OUT_DIR / "weekday_evening_node_prices.json").write_text(
-        json.dumps(node_rows, indent=2, allow_nan=False) + "\n",
-        encoding="utf-8",
-    )
-    (OUT_DIR / "weekday_evening_fuel_mix.json").write_text(
-        json.dumps(fuel_rows, indent=2, allow_nan=False) + "\n",
-        encoding="utf-8",
-    )
+    write_gzip_json(OUT_DIR / NODE_FILE, node_rows)
+    write_gzip_json(OUT_DIR / FUEL_FILE, fuel_rows)
+    _remove_legacy_pretty_json()
     manifest = {
         "exported_at_utc": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "catalog_schema": "nz_energy.gold",
         "tables": {
             "weekday_evening_node_prices": {
                 "rows": len(node_rows),
-                "file": "weekday_evening_node_prices.json",
+                "file": NODE_FILE,
             },
             "weekday_evening_fuel_mix": {
                 "rows": len(fuel_rows),
-                "file": "weekday_evening_fuel_mix.json",
+                "file": FUEL_FILE,
             },
         },
         "note": (

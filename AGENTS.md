@@ -24,7 +24,7 @@
 src/app/           # Next.js App Router：/  /spikes  /mix
 src/lib/           # 窗口统计（mean/median/trim）纯函数 + 类型
 src/export/        # 本机从 Gold 导出快照（export_gold.py）
-data/gold/         # 提交的日表快照（尚未导出）
+data/gold/         # 提交的日表快照（`.json.gz` + `manifest.json`）
 docs/
 README.md
 AGENTS.md

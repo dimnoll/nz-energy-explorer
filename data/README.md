@@ -2,11 +2,13 @@
 
 `gold/` holds **exported daily Gold tables** from Unity Catalog, not EMI CSVs.
 
-| File (planned) | Source table | Grain |
+| File | Source table | Grain |
 | --- | --- | --- |
-| `weekday_evening_node_prices.json` | `nz_energy.gold.weekday_evening_node_prices` | weekday date × node |
-| `weekday_evening_fuel_mix.json` | `nz_energy.gold.weekday_evening_fuel_mix` | weekday date × EMI `Fuel_Code` |
+| `weekday_evening_node_prices.json.gz` | `nz_energy.gold.weekday_evening_node_prices` | weekday date × node |
+| `weekday_evening_fuel_mix.json.gz` | `nz_energy.gold.weekday_evening_fuel_mix` | weekday date × EMI `Fuel_Code` |
 | `manifest.json` | export metadata | window, row counts, export time |
+
+Snapshots are compact gzip JSON (no pretty-print). Do not commit uncompressed `.json` for these tables.
 
 Export (laptop only, never from the Next.js app):
 
