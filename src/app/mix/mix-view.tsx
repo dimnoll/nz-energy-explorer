@@ -1,12 +1,18 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import { rankFuels } from "@/lib/aggregate";
-import type { FuelDayRow, WindowStat } from "@/lib/types";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import type { FuelWindowRow, WindowStat } from "@/lib/types";
 
-export function MixView({ days }: { days: FuelDayRow[] }) {
-  const [stat, setStat] = useState<WindowStat>("mean");
-  const ranked = useMemo(() => rankFuels(days, stat), [days, stat]);
+export function MixView({
+  ranked,
+  stat,
+}: {
+  ranked: FuelWindowRow[];
+  stat: WindowStat;
+}) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
   return (
     <>
@@ -15,7 +21,16 @@ export function MixView({ days }: { days: FuelDayRow[] }) {
           Window stat
           <select
             value={stat}
-            onChange={(event) => setStat(event.target.value as WindowStat)}
+            onChange={(event) => {
+              const next = new URLSearchParams(searchParams.toString());
+              if (event.target.value === "mean") {
+                next.delete("stat");
+              } else {
+                next.set("stat", event.target.value);
+              }
+              const query = next.toString();
+              router.replace(query ? `${pathname}?${query}` : pathname);
+            }}
           >
             <option value="mean">mean</option>
             <option value="median">median</option>

@@ -24,8 +24,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <footer>
           Price and generation figures are derived from EMI data. Attribution:
           www.emi.ea.govt.nz provided by the Electricity Authority (New
-          Zealand), CC BY 4.0. Until a Gold snapshot is exported, pages use a
-          tiny fixture, not the lakehouse tables.
+          Zealand), CC BY 4.0.
         </footer>
       </body>
     </html>

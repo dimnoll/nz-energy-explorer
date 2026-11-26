@@ -1,34 +1,51 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import { nodeDailySeries, rankNodes } from "@/lib/aggregate";
-import type { NodeDayRow, TrimHighestDays, WindowStat } from "@/lib/types";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import type { NodeDayRow, NodeWindowRow, TrimHighestDays, WindowStat } from "@/lib/types";
 import { TRIM_OPTIONS } from "@/lib/types";
 
-const DEFAULT_NODE = "WTK0111";
+function replaceQuery(
+  pathname: string,
+  searchParams: URLSearchParams,
+  router: ReturnType<typeof useRouter>,
+  updates: Record<string, string>,
+): void {
+  const next = new URLSearchParams(searchParams.toString());
+  for (const [key, value] of Object.entries(updates)) {
+    if (value) {
+      next.set(key, value);
+    } else {
+      next.delete(key);
+    }
+  }
+  const query = next.toString();
+  router.replace(query ? `${pathname}?${query}` : pathname);
+}
 
-export function SpikesView({ days }: { days: NodeDayRow[] }) {
-  const [stat, setStat] = useState<WindowStat>("mean");
-  const [trim, setTrim] = useState<TrimHighestDays>(0);
-  const [island, setIsland] = useState<string>("");
-  const [selected, setSelected] = useState(DEFAULT_NODE);
+export function SpikesView({
+  ranked,
+  series,
+  seriesNode,
+  stat,
+  trim,
+  island,
+  islands,
+}: {
+  ranked: NodeWindowRow[];
+  series: NodeDayRow[];
+  seriesNode: string;
+  stat: WindowStat;
+  trim: TrimHighestDays;
+  island: string;
+  islands: string[];
+}) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
-  const islands = useMemo(() => {
-    return [...new Set(days.map((row) => row.island).filter(Boolean))] as string[];
-  }, [days]);
-
-  const ranked = useMemo(() => {
-    return rankNodes(days, {
-      stat,
-      trimHighestDays: trim,
-      island: island || null,
-    });
-  }, [days, island, stat, trim]);
-
-  const seriesNode = ranked.some((row) => row.point_of_connection === selected)
-    ? selected
-    : (ranked[0]?.point_of_connection ?? DEFAULT_NODE);
-  const series = nodeDailySeries(days, seriesNode);
+  function setQuery(updates: Record<string, string>): void {
+    replaceQuery(pathname, new URLSearchParams(searchParams.toString()), router, updates);
+  }
 
   return (
     <>
@@ -37,7 +54,7 @@ export function SpikesView({ days }: { days: NodeDayRow[] }) {
           Window stat
           <select
             value={stat}
-            onChange={(event) => setStat(event.target.value as WindowStat)}
+            onChange={(event) => setQuery({ stat: event.target.value })}
           >
             <option value="mean">mean</option>
             <option value="median">median</option>
@@ -47,9 +64,7 @@ export function SpikesView({ days }: { days: NodeDayRow[] }) {
           Trim highest days
           <select
             value={trim}
-            onChange={(event) =>
-              setTrim(Number(event.target.value) as TrimHighestDays)
-            }
+            onChange={(event) => setQuery({ trim: event.target.value })}
           >
             {TRIM_OPTIONS.map((option) => (
               <option key={option} value={option}>
@@ -62,7 +77,7 @@ export function SpikesView({ days }: { days: NodeDayRow[] }) {
           Island
           <select
             value={island}
-            onChange={(event) => setIsland(event.target.value)}
+            onChange={(event) => setQuery({ island: event.target.value })}
           >
             <option value="">all</option>
             {islands.map((value) => (
@@ -93,7 +108,7 @@ export function SpikesView({ days }: { days: NodeDayRow[] }) {
                   className="row"
                   type="button"
                   aria-pressed={row.point_of_connection === seriesNode}
-                  onClick={() => setSelected(row.point_of_connection)}
+                  onClick={() => setQuery({ node: row.point_of_connection })}
                 >
                   {row.point_of_connection}
                 </button>

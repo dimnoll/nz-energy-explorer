@@ -1,6 +1,26 @@
-import { DATA_SOURCE } from "@/lib/load-days";
+import {
+  DATA_SOURCE,
+  loadFuelDays,
+  loadGoldManifest,
+  loadNodeDays,
+  weekdayWindow,
+} from "@/lib/load-days";
+
+function formatWindow(
+  label: string,
+  window: { start: string; end: string; weekdayDays: number } | null,
+): string {
+  if (!window) {
+    return `${label}: no weekday rows`;
+  }
+  return `${label}: ${window.start} to ${window.end} (${window.weekdayDays} weekdays)`;
+}
 
 export default function HomePage() {
+  const priceWindow = weekdayWindow(loadNodeDays());
+  const mixWindow = weekdayWindow(loadFuelDays());
+  const manifest = loadGoldManifest();
+
   return (
     <main>
       <h1>Weekday evening spikes</h1>
@@ -26,8 +46,18 @@ export default function HomePage() {
           <code>Fuel_Code</code>. Hydro and HYD stay separate. No trim in v1.
         </li>
       </ul>
+      <h2>Snapshot windows</h2>
+      <p>
+        Price and generation tables are not joined on date. The generation Gold
+        table can start earlier because it comes from monthly files.
+      </p>
+      <ul>
+        <li>{formatWindow("Prices", priceWindow)}</li>
+        <li>{formatWindow("Generation mix", mixWindow)}</li>
+      </ul>
       <p className="note">
-        Data source on these pages: <strong>{DATA_SOURCE}</strong>. The sibling
+        Data source on these pages: <strong>{DATA_SOURCE}</strong>
+        {manifest ? ` (exported ${manifest.exported_at_utc})` : ""}. The sibling
         lakehouse stays sealed; this app does not download EMI or query
         Databricks from the browser.
       </p>

@@ -4,7 +4,7 @@
 
 Read-only Next.js app over Gold tables from [nz-energy-lakehouse](https://github.com/dimnoll/nz-energy-lakehouse): weekday evening price spikes, plus national generation mix. The lakehouse stays sealed; this repo does not run Lakeflow or download EMI.
 
-**Status:** Next.js App Router skeleton is in `src/app/` (`/`, `/spikes`, `/mix`). Window stats (`mean` / `median`, trim 0/1/3) are pure functions with fixture tests (`pnpm test`). Pages still read a tiny fixture, not a Gold snapshot. No deploy yet.
+**Status:** Pages read the gzip Gold snapshot in `data/gold/` (`gold-snapshot`). Window stats (`mean` / `median`, trim 0/1/3) stay pure functions; `pnpm test` still uses the fixture JSON. No deploy yet.
 
 ---
 
@@ -36,12 +36,17 @@ Not in v1: upload, auth, maps, SHAP, live Databricks from the browser.
 
 ### Data
 
-Snapshots in `data/gold/` (not exported yet) come from:
+Snapshots in `data/gold/` (compact `.json.gz` plus `manifest.json`) come from:
 
 - `nz_energy.gold.weekday_evening_node_prices`
 - `nz_energy.gold.weekday_evening_fuel_mix`
 
-Export runs on a laptop with a SQL warehouse. The deployed app ships the snapshot only. Raw EMI CSVs are not in this repo.
+This snapshot (exported 2026-11-25T20:54:56Z):
+
+- Prices: 2026-08-18 to 2026-11-12 (63 weekdays)
+- Generation mix: 2026-08-03 to 2026-10-30 (65 weekdays)
+
+The two windows are not joined on date. Export runs on a laptop with a SQL warehouse. The deployed app ships the snapshot only. Raw EMI CSVs are not in this repo.
 
 Data licence: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Attribution: *www.emi.ea.govt.nz provided by the Electricity Authority (New Zealand)*.
 
@@ -66,7 +71,7 @@ pnpm dev
 
 只读 Next.js 应用，数据来自 [nz-energy-lakehouse](https://github.com/dimnoll/nz-energy-lakehouse) 的 Gold 日表：工作日晚间电价尖峰，以及全国发电结构。湖仓继续封口；本仓不跑 Lakeflow，不下载 EMI。
 
-**当前状态：** Next.js App Router 骨架在 `src/app/`（`/`、`/spikes`、`/mix`）。窗口统计（mean / median，trim 0/1/3）是带 fixture 测试的纯函数（`pnpm test`）。页面仍读一小段 fixture，不是 Gold 快照。尚未部署。
+**当前状态：** 页面读 `data/gold/` 里的 gzip Gold 快照（`gold-snapshot`）。窗口统计（mean / median，trim 0/1/3）仍是纯函数；`pnpm test` 继续用 fixture JSON。尚未部署。
 
 ### 问题
 
@@ -94,7 +99,7 @@ v1 不做：上传、登录、地图、SHAP、浏览器直连 Databricks。
 
 ### 数据
 
-`data/gold/` 快照（尚未导出）来自上面两张 Gold 日表。导出只在本机用 SQL warehouse 跑；线上只带快照。原始 EMI CSV 不在本仓。
+`data/gold/` 快照（紧凑 `.json.gz` 加 `manifest.json`）来自上面两张 Gold 日表。本份导出时间 2026-11-25T20:54:56Z。价格窗口 2026-08-18 至 2026-11-12（63 个工作日）；发电窗口 2026-08-03 至 2026-10-30（65 个工作日）。两窗口不按日期 join。导出只在本机用 SQL warehouse 跑；线上只带快照。原始 EMI CSV 不在本仓。
 
 数据许可：[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)。署名：*www.emi.ea.govt.nz provided by the Electricity Authority (New Zealand)*。
 
