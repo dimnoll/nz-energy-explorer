@@ -1,26 +1,8 @@
-"use client";
-
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import Link from "next/link";
+import { FilterForm } from "@/app/filter-form";
+import { spikesHref } from "@/lib/query";
 import type { NodeDayRow, NodeWindowRow, TrimHighestDays, WindowStat } from "@/lib/types";
 import { TRIM_OPTIONS } from "@/lib/types";
-
-function replaceQuery(
-  pathname: string,
-  searchParams: URLSearchParams,
-  router: ReturnType<typeof useRouter>,
-  updates: Record<string, string>,
-): void {
-  const next = new URLSearchParams(searchParams.toString());
-  for (const [key, value] of Object.entries(updates)) {
-    if (value) {
-      next.set(key, value);
-    } else {
-      next.delete(key);
-    }
-  }
-  const query = next.toString();
-  router.replace(query ? `${pathname}?${query}` : pathname);
-}
 
 export function SpikesView({
   ranked,
@@ -39,33 +21,20 @@ export function SpikesView({
   island: string;
   islands: string[];
 }) {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-
-  function setQuery(updates: Record<string, string>): void {
-    replaceQuery(pathname, new URLSearchParams(searchParams.toString()), router, updates);
-  }
-
   return (
     <>
-      <div className="controls">
+      <FilterForm action="/spikes">
+        <input type="hidden" name="node" value={seriesNode} />
         <label>
           Window stat
-          <select
-            value={stat}
-            onChange={(event) => setQuery({ stat: event.target.value })}
-          >
+          <select name="stat" defaultValue={stat}>
             <option value="mean">mean</option>
             <option value="median">median</option>
           </select>
         </label>
         <label>
           Trim highest days
-          <select
-            value={trim}
-            onChange={(event) => setQuery({ trim: event.target.value })}
-          >
+          <select name="trim" defaultValue={String(trim)}>
             {TRIM_OPTIONS.map((option) => (
               <option key={option} value={option}>
                 {option}
@@ -75,10 +44,7 @@ export function SpikesView({
         </label>
         <label>
           Island
-          <select
-            value={island}
-            onChange={(event) => setQuery({ island: event.target.value })}
-          >
+          <select name="island" defaultValue={island}>
             <option value="">all</option>
             {islands.map((value) => (
               <option key={value} value={value}>
@@ -87,7 +53,7 @@ export function SpikesView({
             ))}
           </select>
         </label>
-      </div>
+      </FilterForm>
       <table>
         <thead>
           <tr>
@@ -104,14 +70,20 @@ export function SpikesView({
             <tr key={row.point_of_connection}>
               <td>{row.spike_rank}</td>
               <td>
-                <button
+                <Link
                   className="row"
-                  type="button"
-                  aria-pressed={row.point_of_connection === seriesNode}
-                  onClick={() => setQuery({ node: row.point_of_connection })}
+                  href={spikesHref({
+                    stat,
+                    trim,
+                    island,
+                    node: row.point_of_connection,
+                  })}
+                  aria-current={
+                    row.point_of_connection === seriesNode ? "page" : undefined
+                  }
                 >
                   {row.point_of_connection}
-                </button>
+                </Link>
               </td>
               <td>{row.island ?? ""}</td>
               <td>{row.network_reporting_region ?? ""}</td>

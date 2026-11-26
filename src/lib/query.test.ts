@@ -3,6 +3,7 @@ import {
   parseOptionalFilter,
   parseTrimHighestDays,
   parseWindowStat,
+  spikesHref,
 } from "./query";
 
 describe("query parsers", () => {
@@ -19,5 +20,16 @@ describe("query parsers", () => {
     expect(parseOptionalFilter(undefined)).toBeNull();
     expect(parseOptionalFilter("")).toBeNull();
     expect(parseOptionalFilter("NI")).toBe("NI");
+  });
+});
+
+describe("filter hrefs", () => {
+  it("omits default mean and trim 0 from the spikes URL", () => {
+    expect(spikesHref({ stat: "mean", trim: 0, node: "WTK0111" })).toBe(
+      "/spikes?node=WTK0111",
+    );
+    expect(
+      spikesHref({ stat: "median", trim: 3, island: "NI", node: "WAI0331" }),
+    ).toBe("/spikes?stat=median&trim=3&island=NI&node=WAI0331");
   });
 });

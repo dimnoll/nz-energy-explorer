@@ -24,3 +24,26 @@ export function parseOptionalFilter(value: string | undefined): string | null {
   }
   return value;
 }
+
+export function spikesHref(options: {
+  stat?: string;
+  trim?: string | number;
+  island?: string | null;
+  node?: string;
+}): string {
+  const params = new URLSearchParams();
+  if (options.stat && options.stat !== "mean") {
+    params.set("stat", options.stat);
+  }
+  if (options.trim != null && Number(options.trim) !== 0) {
+    params.set("trim", String(options.trim));
+  }
+  if (options.island) {
+    params.set("island", options.island);
+  }
+  if (options.node) {
+    params.set("node", options.node);
+  }
+  const query = params.toString();
+  return query ? `/spikes?${query}` : "/spikes";
+}

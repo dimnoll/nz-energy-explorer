@@ -55,18 +55,19 @@ th {
   font-size: 0.9rem;
 }
 
-button.row {
-  background: none;
-  border: 0;
+a.row {
   color: inherit;
-  cursor: pointer;
-  font: inherit;
-  padding: 0;
-  text-align: left;
+  text-decoration: none;
 }
 
-button.row[aria-pressed="true"] {
+a.row[aria-current="page"] {
   font-weight: 600;
+}
+
+.controls button[type="submit"] {
+  align-self: end;
+  font: inherit;
+  padding: 0.2rem 0.6rem;
 }
 
 footer {

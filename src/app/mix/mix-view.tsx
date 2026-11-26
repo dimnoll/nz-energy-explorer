@@ -1,6 +1,4 @@
-"use client";
-
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { FilterForm } from "@/app/filter-form";
 import type { FuelWindowRow, WindowStat } from "@/lib/types";
 
 export function MixView({
@@ -10,33 +8,17 @@ export function MixView({
   ranked: FuelWindowRow[];
   stat: WindowStat;
 }) {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-
   return (
     <>
-      <div className="controls">
+      <FilterForm action="/mix">
         <label>
           Window stat
-          <select
-            value={stat}
-            onChange={(event) => {
-              const next = new URLSearchParams(searchParams.toString());
-              if (event.target.value === "mean") {
-                next.delete("stat");
-              } else {
-                next.set("stat", event.target.value);
-              }
-              const query = next.toString();
-              router.replace(query ? `${pathname}?${query}` : pathname);
-            }}
-          >
+          <select name="stat" defaultValue={stat}>
             <option value="mean">mean</option>
             <option value="median">median</option>
           </select>
         </label>
-      </div>
+      </FilterForm>
       <table>
         <thead>
           <tr>
