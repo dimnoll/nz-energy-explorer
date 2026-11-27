@@ -4,7 +4,7 @@
 
 Read-only Next.js app over Gold tables from [nz-energy-lakehouse](https://github.com/dimnoll/nz-energy-lakehouse): weekday evening price spikes, plus national generation mix. It consumes an exported Gold snapshot from the sealed lakehouse.
 
-**Status:** Pages read the gzip Gold snapshot in `data/gold/` (`gold-snapshot`). Window stats (`mean` / `median`, trim 0/1/3) are pure functions; `pnpm test` uses a three-node fixture for those functions.
+**Status:** [nz-energy-explorer.vercel.app](https://nz-energy-explorer.vercel.app) reads the gzip Gold snapshot in `data/gold/` (`gold-snapshot`). Window stats (`mean` / `median`, trim 0/1/3) are pure functions; `pnpm test` uses a three-node fixture for those functions.
 
 ---
 
@@ -69,7 +69,7 @@ pnpm dev
 
 只读 Next.js 应用，数据来自 [nz-energy-lakehouse](https://github.com/dimnoll/nz-energy-lakehouse) 已导出的 Gold 日表：工作日晚间电价尖峰，以及全国发电结构。湖仓继续封口；本仓消费 `data/gold/` 里的快照。
 
-**当前状态：** 页面读 `data/gold/` 里的 gzip Gold 快照（`gold-snapshot`）。窗口统计（mean / median，trim 0/1/3）是纯函数；`pnpm test` 用三条节点的 fixture 测这些函数。
+**当前状态：** [nz-energy-explorer.vercel.app](https://nz-energy-explorer.vercel.app) 读 `data/gold/` 里的 gzip Gold 快照（`gold-snapshot`）。窗口统计（mean / median，trim 0/1/3）是纯函数；`pnpm test` 用三条节点的 fixture 测这些函数。
 
 ### 问题
 
